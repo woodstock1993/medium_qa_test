@@ -5,6 +5,7 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 
 import os
+
 url = "https://explorer.kstadium.io/"
 image_extension = '.png'
 one_exist = False
@@ -14,8 +15,8 @@ number_exist = False
 # 드라이버 설정
 def set_chrome_driver():
     chrome_options = webdriver.ChromeOptions()
-    chrome_driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-    return chrome_driver
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+    return driver
 
 
 # 인자로 현재 경로에 덧붙일 경로를 넣는다. 폴더 경로를 덧붙여 설정해주어야 한다.
@@ -58,8 +59,9 @@ def return_latest_jpg_number(path_dir):
     return 1
 
 
-folder_path = create_folder('/medium_screen_shot')
-driver = set_chrome_driver()
+folder_path = create_folder('/case_2_screen_shot')
+chromedriver_path = os.getcwd() + '/chromedriver'
+driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
 png_num = return_latest_jpg_number(folder_path)
 print(f'현재 {folder_path} 경로 내 가장 큰 png 번호: {png_num}')
 
