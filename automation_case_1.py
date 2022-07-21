@@ -2,26 +2,31 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
 import os, random
 
 
 url = "https://explorer.kstadium.io/"
 block_height_css_selector = '#root > div.sc-jrQzAO.efokId > main > section.sc-fFeiMQ.hXmHOb > div > div:nth-child(2) > table > tbody > tr > td > a'
-click_x_path = ''
+block_height_css_selector_2 = '#root > div > main > section > div > div > div.sc-Galmp.dlSKE > table > tbody > tr > td'
+click_x_path = '//*[@id="root"]/div[2]/main/section[2]/div/div[1]/table/tbody/tr[2]/td[1]/a'
 chromedriver_path = os.getcwd() + '/chromedriver'
 
 driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
 
 
-def check_block_height(cur_url):
+def automation_test_2(cur_url):
     """
     :param: url(string)
     :return: block_height 의 번호가 담긴 리스트 중 추출하여 block_height 반환
     """
     global driver
     global block_height_css_selector
+    global block_height_css_selector_2
+    global click_x_path
 
     block_height_arr = []
+    block_height_dic = {}
 
     driver.get(cur_url)
     sleep(2)
@@ -39,16 +44,50 @@ def check_block_height(cur_url):
             except ValueError:
                 print(f'block_height: {block_height} 가 숫자 형태가 아닙니다')
 
-    driver.quit()
-
     try:
         block_height_number = random.choice(block_height_arr)
         print(f'block height 번호: {block_height_number}가 추출되었습니다.')
-        return block_height_number
     except ValueError:
         print(f'추출된 block height 번호가 없거나 block_height_css_selector 가 잘못 설정되었습니다.')
+        driver.quit()
+        return
 
-    print(f'url, webdriver, css_선택자를 재고하여 오류를 찾아내십시오')
-    return
+    driver.find_element(By.LINK_TEXT, str(block_height_number)).click()
+    print(f'block_height_number: {block_height_number}가 클릭됨')
+    sleep(2)
+
+    req = driver.page_source
+    soup = BeautifulSoup(req, 'html.parser')
+    block_height_info_tags = soup.select(block_height_css_selector_2)
+
+    data = {}
+
+    for i in range(len(block_height_info_tags)):
+        try:
+            if block_height_info_tags[i].text == 'Block Height':
+                data['Block Height'] = block_height_info_tags[i+1].text
+            elif block_height_info_tags[i].text == 'Timestamp':
+                data['Timestamp'] = block_height_info_tags[i + 1].text
+            elif block_height_info_tags[i].text == 'Transactions':
+                data['Transactions'] = block_height_info_tags[i + 1].text
+            elif block_height_info_tags[i].text == 'Block Reward':
+                data['Block Reward'] = block_height_info_tags[i + 1].text
+        except IndexError:
+            print(f'다음 태그가 존재하지 않습니다. {block_height_number}관련 정보가 누락됐습니다.')
+            return
+
+    try:
+        cmp_block_height_number = int(data['Block Height'])
+    except ValueError:
+        print(f'Block Height: {data["Block Height"]} 값이 숫자가 아닙니다.')
+        return
+
+    if block_height_number == cmp_block_height_number:
+        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number}번호와 일치합니다.')
+
+    driver.quit()
+
+    return data
+
 
 

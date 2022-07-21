@@ -41,8 +41,8 @@ def return_latest_jpg_number(path_dir):
         return 1
     else:
         for i in range(file_num):
-            if file_list[i].endswith(f'{image_extension}'):
-                li = file_list[i].split(f'{image_extension}')
+            if file_list[i].endswith(image_extension):
+                li = file_list[i].split(image_extension)
                 try:
                     file_name = int(li[0])
                     num_arr.append(file_name)
@@ -92,7 +92,7 @@ def search_block_height(cur_url):
     sleep(2)
     req = driver.page_source
     soup = BeautifulSoup(req, 'html.parser')
-    block_height_tags = soup.select(f'{block_height_css_selector}')
+    block_height_tags = soup.select(block_height_css_selector)
 
     temp_dic = {}
     for block in block_height_tags:
@@ -133,7 +133,7 @@ def search_block_height(cur_url):
         enter_2 = True
         driver.save_screenshot(screen_image_name)
         png_num += 1
-        driver.find_element('xpath', f'{click_x_path}').click()
+        driver.find_element('xpath', click_x_path).click()
         cur_page += 1
         print(f'transaction 1을 찾기 위해 {cur_page}번 페이지로 이동하였습니다.')
         sleep(2)
