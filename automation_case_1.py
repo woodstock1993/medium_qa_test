@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.service import Service
-import os
+import os, random
 
 
 url = "https://explorer.kstadium.io/"
@@ -14,6 +14,10 @@ driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdr
 
 
 def check_block_height(cur_url):
+    """
+    :param: url(string)
+    :return: block_height 의 번호가 담긴 리스트 중 추출하여 block_height 반환
+    """
     global driver
     global block_height_css_selector
 
@@ -37,7 +41,14 @@ def check_block_height(cur_url):
 
     driver.quit()
 
-    return block_height_arr
+    try:
+        block_height_number = random.choice(block_height_arr)
+        print(f'block height 번호: {block_height_number}가 추출되었습니다.')
+        return block_height_number
+    except ValueError:
+        print(f'추출된 block height 번호가 없거나 block_height_css_selector 가 잘못 설정되었습니다.')
+
+    print(f'url, webdriver, css_선택자를 재고하여 오류를 찾아내십시오')
+    return
 
 
-print(check_block_height(url))
