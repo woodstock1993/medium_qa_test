@@ -9,7 +9,6 @@ import os, random
 url = "https://explorer.kstadium.io/"
 block_height_css_selector = '#root > div.sc-jrQzAO.efokId > main > section.sc-fFeiMQ.hXmHOb > div > div:nth-child(2) > table > tbody > tr > td > a'
 block_height_css_selector_2 = '#root > div > main > section > div > div > div.sc-Galmp.dlSKE > table > tbody > tr > td'
-click_x_path = '//*[@id="root"]/div[2]/main/section[2]/div/div[1]/table/tbody/tr[2]/td[1]/a'
 chromedriver_path = os.getcwd() + '/chromedriver'
 
 driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
@@ -18,12 +17,12 @@ driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdr
 def automation_test_2(cur_url):
     """
     :param: url(string)
-    :return: block_height 의 번호가 담긴 리스트 중 추출하여 block_height 반환
+    :func: block height 번호를 랜덤으로 추출하여 해당 페이지로 들어간 후 번호를 대조한 후 관련 데이터를 추출하여 파일화한다.
+    :return: block_height 관련 데이터 반환
     """
     global driver
     global block_height_css_selector
     global block_height_css_selector_2
-    global click_x_path
 
     block_height_arr = []
     block_height_dic = {}
