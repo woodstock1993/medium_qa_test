@@ -11,7 +11,7 @@ block_height_css_selector = '#root > div.sc-jrQzAO.efokId > main > section.sc-fF
 block_height_css_selector_2 = '#root > div > main > section > div > div > div.sc-Galmp.dlSKE > table > tbody > tr > td'
 chromedriver_path = os.getcwd() + '/chromedriver'
 
-driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
+driver = webdriver.Chrome(service=Service(chromedriver_path), options=webdriver.ChromeOptions())
 
 
 def create_folder(added_path):
@@ -29,6 +29,11 @@ def create_folder(added_path):
 
 
 def trim_data(data, block_num):
+    """
+    :param data: block 정보를 가진 dict 형태의 데이터
+    :param block_num: 블록번호
+    :return: 데이터를 전처리 한 후 data를 반환한다.
+    """
     for k, v in data.items():
         try:
             if k == 'Timestamp':
@@ -45,7 +50,7 @@ def write_file(dir_path, block_num, data):
     :param dir_path: .txt 파일을 쓸 경로 입력
     :param block_num: 블록 번호
     :param data: 블록과 관련한 데이터가 담긴 딕셔너리 형태의 data
-    :function: 입력한 경로 폴더에 블록이름으로 블록과 관련한 데이터가 담긴 .txt 파일을 생성한다.
+    :function: 입력한 경로 폴더에 블록이름.txt 파일을 생성, 해당 파일에는 블록 정보가 담겨있다.
     :return: None
     """
     path = f'{dir_path}/{block_num}.txt'
