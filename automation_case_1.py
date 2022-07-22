@@ -3,7 +3,7 @@ from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
-import os, random
+import os, random, re
 
 
 url = "https://explorer.kstadium.io/"
@@ -12,6 +12,61 @@ block_height_css_selector_2 = '#root > div > main > section > div > div > div.sc
 chromedriver_path = os.getcwd() + '/chromedriver'
 
 driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
+
+
+def create_folder(added_path):
+    """
+    :param added_path: 현재 경로에 폴더(/폴더이름)을 포함한 경로를 추가로 적어준다.
+    :function: 덧붙인 경로에 폴더를 생성한다. 같은 이름이 있으면 폴더를 생성하지 않는다.
+    :return: 해당 폴더가 위치한 경로를 반환한다.
+    """
+    current_path = os.getcwd()
+    path = current_path + added_path
+    if not os.path.exists(path):
+        os.mkdir(path)
+        print(f'{path}경로에 폴더가 생성되었습니다')
+    return path
+
+
+def trim_data(data, block_num):
+    for k, v in data.items():
+        try:
+            if k == 'Timestamp':
+                data['Timestamp'] = res = re.split('[()]', v)[1]
+            elif k == 'Transactions':
+                data['Transactions'] = v.split()[0]
+        except TypeError:
+            print(f'block_height {block_num}의 속성 중 {k}가 가지고 있는 값의 형태가 변경되었습니다.')
+    return data
+
+
+def write_file(dir_path, block_num, data):
+    """
+    :param dir_path: .txt 파일을 쓸 경로 입력
+    :param block_num: 블록 번호
+    :param data: 블록과 관련한 데이터가 담긴 딕셔너리 형태의 data
+    :function: 입력한 경로 폴더에 블록이름으로 블록과 관련한 데이터가 담긴 .txt 파일을 생성한다.
+    :return: None
+    """
+    path = f'{dir_path}/{block_num}.txt'
+    f = open(path, 'w')
+
+    for k, v in data.items():
+        if k == 'Block Height':
+            sentence = f'Block Height: {v}\n'
+            f.write(sentence)
+        elif k == 'Timestamp':
+            sentence = f'Timestamp: {v}\n'
+            f.write(sentence)
+        elif k == 'Transactions':
+            sentence = f'Transactions: {v}\n'
+            f.write(sentence)
+        elif k == 'Block Reward':
+            sentence = f'Block Reward: {v}\n'
+            f.write(sentence)
+
+    f.close()
+    return
 
 
 def automation_test_2(cur_url):
@@ -25,7 +80,6 @@ def automation_test_2(cur_url):
     global block_height_css_selector_2
 
     block_height_arr = []
-    block_height_dic = {}
 
     driver.get(cur_url)
     sleep(2)
@@ -52,7 +106,7 @@ def automation_test_2(cur_url):
         return
 
     driver.find_element(By.LINK_TEXT, str(block_height_number)).click()
-    print(f'block_height_number: {block_height_number}가 클릭됨')
+    print(f'block_height_number: {block_height_number}가 클릭되었습니다.')
     sleep(2)
 
     req = driver.page_source
@@ -82,11 +136,18 @@ def automation_test_2(cur_url):
         return
 
     if block_height_number == cmp_block_height_number:
-        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number}번호와 일치합니다.')
+        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number} 번호와 일치합니다.')
+    else:
+        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number} 번호와 불일치합니다.')
 
+    trim_data(data, block_height_number)
+
+    write_file(folder_path, block_height_number, data)
+    print(f'{block_height_number}의 상세정보: {data}')
     driver.quit()
 
     return data
 
 
-
+folder_path = create_folder('/automation_case_1')
+automation_test_2(url)
