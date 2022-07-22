@@ -1,8 +1,5 @@
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from time import sleep
-from selenium.webdriver.chrome.service import Service
-import os
+from utils.commons import *
+
 
 url = "https://explorer.kstadium.io/"
 image_extension = '.png'

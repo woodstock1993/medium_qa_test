@@ -1,9 +1,6 @@
-from bs4 import BeautifulSoup
-from selenium import webdriver
-from time import sleep
-from selenium.webdriver.chrome.service import Service
+from utils.commons import *
 from selenium.webdriver.common.by import By
-import os, random, re
+import random, re
 
 
 url = "https://explorer.kstadium.io/"
