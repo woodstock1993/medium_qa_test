@@ -21,7 +21,7 @@ def create_folder(added_path):
     path = current_path + added_path
     if not os.path.exists(path):
         os.mkdir(path)
-        print(f'{path}경로에 폴더가 생성되었습니다')
+        print(f'{path} 경로에 폴더가 생성되었습니다')
     return path
 
 
@@ -66,7 +66,7 @@ def write_file(dir_path, block_num, data):
         elif k == 'Block Reward':
             sentence = f'Block Reward: {v}\n'
             f.write(sentence)
-
+    print(f'{block_num}.txt 파일이 {dir_path} 경로에 생성되었습니다.')
     f.close()
     return
 
@@ -98,6 +98,12 @@ def automation_test_2(cur_url):
                 block_height_arr.append(int(block_height))
             except ValueError:
                 print(f'block_height: {block_height} 가 숫자 형태가 아닙니다')
+    try:
+        block_height_arr[-1]
+    except TypeError:
+        print(f'추출된 번호가 단 한개도 없습니다. 자동화 테스트1을 종료합니다.')
+        driver.quit()
+        return
 
     try:
         block_height_number = random.choice(block_height_arr)
@@ -108,7 +114,7 @@ def automation_test_2(cur_url):
         return
 
     driver.find_element(By.LINK_TEXT, str(block_height_number)).click()
-    print(f'block_height_number: {block_height_number}가 클릭되었습니다.')
+    print(f'block height 번호: {block_height_number}가 클릭되었습니다.')
     sleep(2)
 
     req = driver.page_source
@@ -138,14 +144,13 @@ def automation_test_2(cur_url):
         return
 
     if block_height_number == cmp_block_height_number:
-        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number} 번호와 일치합니다.')
+        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number}번호와 일치합니다.')
     else:
-        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number} 번호와 불일치합니다.')
+        print(f'{block_height_number}가 페이지 속 {cmp_block_height_number}번호와 불일치합니다.')
 
-    trim_data(data, block_height_number)
-
+    data = trim_data(data, block_height_number)
     write_file(folder_path, block_height_number, data)
-    print(f'{block_height_number}의 상세정보: {data}')
+    print(f'{block_height_number}의 상세정보는 다음과 같습니다, {data}')
     driver.quit()
 
     return data
