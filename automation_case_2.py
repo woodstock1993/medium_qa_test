@@ -1,35 +1,20 @@
 from utils.commons import *
 
-
 url = "https://explorer.kstadium.io/"
 image_extension = '.png'
 one_exist = False
 number_exist = False
 
 
-def create_folder(added_path):
-    """
-    :param added_path: 현재 경로에 폴더(/폴더이름)을 포함한 경로를 추가로 적어준다.
-    :function: 덧붙인 경로에 폴더를 생성한다. 같은 이름이 있으면 폴더를 생성하지 않는다.
-    :return: 해당 폴더가 위치한 경로를 반환한다.
-    """
-    current_path = os.getcwd()
-    path = current_path + added_path
-    if not os.path.exists(path):
-        os.mkdir(path)
-        print(f'{path}경로에 폴더가 생성되었습니다')
-    return path
-
-
-def return_latest_jpg_number(path_dir):
+def return_latest_png_number(path_dir):
     """
     :param path_dir: 현재 경로에 덧붙일 폴더(/폴더이름)을 포함한 경로를 적어준다.
     :return: 폴더 내에 숫자만으로 이루어진 이름이 있을 경우 그 중에서 가장 큰 번호를 반환한다. 없을 경우 1을 반환한다.
     """
     global one_exist
     global number_exist
+
     num_arr = []
-    global image_extension
     file_list = os.listdir(path_dir)
     file_num = len(file_list)
     if file_num == 0:
@@ -70,7 +55,7 @@ def return_latest_jpg_number(path_dir):
 folder_path = create_folder('/automation_case_2')
 chromedriver_path = os.getcwd() + '/chromedriver'
 driver = webdriver.Chrome(service=Service(f'{chromedriver_path}'), options=webdriver.ChromeOptions())
-png_num = return_latest_jpg_number(folder_path)
+png_num = return_latest_png_number(folder_path)
 print(f'현재 {folder_path} 경로 내 가장 큰 png 번호: {png_num}')
 
 cur_page = 1
