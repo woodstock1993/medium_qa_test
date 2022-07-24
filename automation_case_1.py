@@ -138,7 +138,6 @@ def automation_test_2(cur_url):
     write_file(folder_path, block_height_number, data)
     print(f'{block_height_number}의 상세정보는 다음과 같습니다, {data}')
     driver.quit()
-
     return data
 
 
