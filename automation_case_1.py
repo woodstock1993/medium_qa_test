@@ -20,7 +20,7 @@ def trim_data(data, block_num):
     for k, v in data.items():
         try:
             if k == 'Timestamp':
-                data['Timestamp'] = res = re.split('[()]', v)[1]
+                data['Timestamp'] = re.split('[()]', v)[1]
             elif k == 'Transactions':
                 data['Transactions'] = v.split()[0]
         except TypeError:
