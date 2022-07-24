@@ -18,6 +18,13 @@ image_extension = '.png'
 
 
 def make_csv_file(csv_path, driver, search_key_word):
+    """
+    :param csv_path: 생성하려는 파일을 담을 디렉토리를 포함한 경로
+    :param driver: 기존의 열려있는 크롬 driver
+    :param search_key_word: 홈화면에서 찾고자 하는 검색어 중 주소값
+    :function : csv_path 에 search_key_word.csv 파일을 이름으로 데이터를 담아서 csv 파일을 생성한다.
+    :return: None
+    """
     f = open(f'{csv_path}/{search_key_word}.csv', 'w')
     tr = driver.find_elements(By.TAG_NAME, 'tr')
     column = tr[0].text.replace(' ', ',',) + '\n'
@@ -31,6 +38,11 @@ def make_csv_file(csv_path, driver, search_key_word):
 
 
 def put_address(cur_url):
+    """
+    :param cur_url: 사이트에서 address 가 담긴 url
+    :function: 사이트에서 address 가 담긴 페이지로 이동해 address 값을 list 에 추가한다.
+    :return: address 값을 담은 리스트
+    """
     global driver
     address_arr = []
 
@@ -39,8 +51,8 @@ def put_address(cur_url):
     elem = driver.find_elements(By.TAG_NAME, 'tr')
     for i in range(1, len(elem)):
         try:
-            address = elem[i].text.split()[1]
-            address_arr.append(address)
+            _address = elem[i].text.split()[1]
+            address_arr.append(_address)
         except ValueError:
             print(f'address 값이 존재하지 않습니다.')
             continue
@@ -48,6 +60,12 @@ def put_address(cur_url):
 
 
 def automation_test_3(cur_url, key_word):
+    """
+    :param cur_url: 홈 url
+    :param key_word: 찾으려는 주소 값
+    :function: 자동화 테스트 1 수행(검색 후 스크린샷 저장, Balance 데이터 출력, Transaction 관련 데이터 생성 후 저장)
+    :return: None
+    """
     global driver
     global image_extension
     global search_css_selector
@@ -73,6 +91,7 @@ def automation_test_3(cur_url, key_word):
         return
 
     screen_image_name = f'{folder_path}/{key_word}{image_extension}'
+    driver.get_window_size()
     driver.save_screenshot(screen_image_name)
 
     data = {}
@@ -93,12 +112,12 @@ def automation_test_3(cur_url, key_word):
     return
 
 
-address_arr = put_address('https://explorer.kstadium.io/accounts')
-if len(address_arr) == 0:
+addresses = put_address('https://explorer.kstadium.io/accounts')
+
+if len(addresses) == 0:
     print(f'주소가 존재하지 않아서 검색을 드라이버를 종료합니다.')
     driver.quit()
 else:
-    for address in address_arr:
+    for address in addresses:
         automation_test_3(url, address)
     driver.quit()
-
