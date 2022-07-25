@@ -66,7 +66,7 @@ block_height_css_selector = '#root > div.sc-jrQzAO.efokId > main > section.sc-fF
 click_x_path = '//*[@id="root"]/div[2]/main/section[2]/div/div[2]/div/span[2]/a'
 
 
-def search_block_height(cur_url):
+def automation_test_2(cur_url):
     """
     :param cur_url: 접속할 페이지 url
     :function: block num 의 transaction 이 1이 나타날 때까지 다음 페이지로 이동하면서 방문한 페이지의 화면을 스크린샷으로 찍어 지정한 폴더 경로에 저장한다.
@@ -166,5 +166,5 @@ def print_result():
         print(f'최종적으로 {cur_page}번 페이지까지 이동하였습니다.')
 
 
-search_block_height(url)
+automation_test_2(url)
 print_result()

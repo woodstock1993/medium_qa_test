@@ -122,4 +122,4 @@ def automation_test_3(cur_url, key_word):
 #     driver.quit()
 
 test_key_word = '21a34c702bfe8d06544e557fcc06965a86365933'
-automation_test_3(url, test_key_word)
+automation_test_3(url, search_key_word)

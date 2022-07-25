@@ -56,7 +56,7 @@ def write_file(dir_path, block_num, data):
     return
 
 
-def automation_test_2(cur_url):
+def automation_test_1(cur_url):
     """
     :param: url(string)
     :func: block height 번호를 랜덤으로 추출하여 해당 페이지로 들어간 후 번호를 대조한 후 관련 데이터를 추출하여 파일화한다.
@@ -141,4 +141,4 @@ def automation_test_2(cur_url):
 
 
 folder_path = create_folder('/automation_case_1')
-automation_test_2(url)
+automation_test_1(url)
