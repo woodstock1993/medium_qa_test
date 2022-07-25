@@ -87,7 +87,7 @@ def automation_test_2(cur_url):
     if enter is False:
         driver.get(cur_url)
         enter = True
-    sleep(2.5)
+    sleep(2)
     req = driver.page_source
     soup = BeautifulSoup(req, 'html.parser')
     block_height_tags = soup.select(block_height_css_selector)
@@ -138,9 +138,9 @@ def automation_test_2(cur_url):
         driver.find_element('xpath', click_x_path).click()
         cur_page += 1
         print(f'transaction 1을 찾기 위해 {cur_page}번 페이지로 이동하였습니다.')
-        sleep(2.5)
+        sleep(2)
         cur_url = driver.current_url
-        search_block_height(cur_url)
+        automation_test_2(cur_url)
         return
     screen_image_name = f'{folder_path}/{png_num}{image_extension}'
     el = driver.find_element(By.TAG_NAME, 'body')

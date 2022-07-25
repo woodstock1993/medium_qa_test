@@ -107,19 +107,23 @@ def automation_test_3(cur_url, key_word):
         csv_path = create_folder('/automation_case_3_csv')
         make_csv_file(csv_path, driver, key_word)
         print(f'{search_key_word}: {data}')
-    driver.quit()  # 단독 실행 시 활성화
+    # driver.quit()  # 단독 실행 시 활성화
     return
 
 
-# addresses = put_address('https://explorer.kstadium.io/accounts')
-#
-# if len(addresses) == 0:
-#     print(f'주소가 존재하지 않아서 검색을 드라이버를 종료합니다.')
-#     driver.quit()
-# else:
-#     for address in addresses:
-#         automation_test_3(url, address)
-#     driver.quit()
+addresses = put_address('https://explorer.kstadium.io/accounts')
 
-test_key_word = '21a34c702bfe8d06544e557fcc06965a86365933'
-automation_test_3(url, search_key_word)
+if len(addresses) == 0:
+    print(f'주소가 존재하지 않아서 검색을 드라이버를 종료합니다.')
+    driver.quit()
+else:
+    for address in addresses:
+        automation_test_3(url, address)
+    driver.quit()
+
+# test_key_word = '21a34c702bfe8d06544e557fcc06965a86365933'
+# automation_test_3(url, search_key_word)
+
+"""
+    여러개의 주소값을 대상으로 자동화 테스트 케이스3을 실행하겠습니다.
+"""
