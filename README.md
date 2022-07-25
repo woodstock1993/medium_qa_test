@@ -33,7 +33,7 @@
 - [x] 추출 한 값 중 1이 있는지 체크하는 기능
 - [x] 체크한 페이지에 대해서 스크린 샷을 찍는 기능
 - [x] 추출한 값이 없다면 다음페이지로 이동하는 기능
-- [x] 추출한 값중 1이 있으면 화면 캡처 후 종료하는 기능
+- [x] 추출한 값 중 1이 있으면 화면 캡처 후 종료하는 기능
 
 자동화 케이스3
 - [x] 홈 화면에서 주소 값을 검색하는 기능
@@ -49,14 +49,13 @@
 
 ### Step to run
 ```
-- https://chromedriver.chromium.org/downloads 해당 링크로 가서 자신이 사용하는 운영체제와 크롬버전에 맞는 드라이버를 다운로드 받는다.
-$ git clone https://github.com/woodstock1993/medium_qa_test.git
+$ https://chromedriver.chromium.org/downloads // 해당 링크로 가서 자신이 사용하는 운영체제와 크롬버전에 맞는 드라이버를 다운로드
+$ git clone https://github.com/woodstock1993/medium_qa_test.git // 다운받고자 하는 위치로 이동해서 git clone 실시 후 크롬 드라이버를 git clone 한 위치로 이동시킨다.
 $ python -m venv venv
 $ pip install --upgrade pip
 $ source venv/bin/activate // Mac 명령어
 $ .\venv\Scripts\activate  // Window 명령어
 $ pip install -r requirements.txt
-- 크롬 드라이버를 git clone 한 위치로 이동시킨다.
 $ automation_case_1.py // 자동화 케이스 1 실행 
 $ automation_case_2.py // 자동화 케이스 2 실행 
 $ automation_case_3.py // 자동화 케이스 3 실행 
