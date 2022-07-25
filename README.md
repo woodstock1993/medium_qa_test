@@ -47,6 +47,9 @@
 ### 개발 기간
 - 2022.07.20 - 2022.07.25
 
+### 자동화 테스트 영상 보기
+- https://drive.google.com/drive/folders/1PhJ1HmYd4XlHu0Bl2cxMJ9vME_oY0OXv // 해당 링크에서 각 파일 다운로드 후 소리를 없애고 실행해주세요.
+
 ### Step to run
 ```
 $ https://chromedriver.chromium.org/downloads // 해당 링크로 가서 자신이 사용하는 운영체제와 크롬버전에 맞는 드라이버를 다운로드
