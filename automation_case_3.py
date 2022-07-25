@@ -1,5 +1,4 @@
 from utils.commons import *
-from selenium.webdriver.common.by import By
 
 url = "https://explorer.kstadium.io/"
 
@@ -8,7 +7,7 @@ driver = webdriver.Chrome(service=Service(chromedriver_path), options=webdriver.
 
 search_css_selector = '#root > div.sc-jrQzAO.efokId > main > section.sc-jOxtWs.iJeUrj > div.sc-hmjpVf.ijnNvF > div > form > input'
 search_key_word = '0xFc50afdd6db9dE442251f643b6Efb0A1926FE0b5'
-click_x_path = '//*[@id="root"]/div[2]/main/section[1]/div[1]/div/form/button/img'
+click_x_path = '//*[@id="root"]/div[2]/main/section[1]/div[1]/div/form/button'
 
 balance_css_selector = '#root > div > main > section > div > div:nth-child(3) > table > tbody > tr:nth-child(1) > td:nth-child(2)'
 transaction_click_x_path = '//*[@id="root"]/div/main/section/div/div[1]/button[2]'
@@ -47,7 +46,7 @@ def put_address(cur_url):
     address_arr = []
 
     driver.get(cur_url)
-    sleep(2)
+    sleep(2.5)
     elem = driver.find_elements(By.TAG_NAME, 'tr')
     for i in range(1, len(elem)):
         try:
@@ -76,12 +75,12 @@ def automation_test_3(cur_url, key_word):
 
     folder_path = create_folder('/automation_case_3')
     driver.get(cur_url)
-    sleep(2)
+    sleep(2.5)
     elem = driver.find_element(By.CSS_SELECTOR, search_css_selector)
     elem.clear()
     elem.send_keys(key_word)
     driver.find_element('xpath', click_x_path).click()
-    sleep(2)
+    sleep(2.5)
 
     # 예외처리
     string = driver.current_url.split(key_word)[0]
@@ -91,8 +90,8 @@ def automation_test_3(cur_url, key_word):
         return
 
     screen_image_name = f'{folder_path}/{key_word}{image_extension}'
-    driver.get_window_size()
-    driver.save_screenshot(screen_image_name)
+    el = driver.find_element(By.TAG_NAME, 'body')
+    el.screenshot(screen_image_name)
 
     data = {}
     soup = html_parse(driver)
@@ -104,20 +103,23 @@ def automation_test_3(cur_url, key_word):
         data['Balance'] = balance_tag.text
 
         driver.find_element('xpath', transaction_click_x_path).click()
-        sleep(2)
+        sleep(2.5)
         csv_path = create_folder('/automation_case_3_csv')
         make_csv_file(csv_path, driver, key_word)
         print(f'{search_key_word}: {data}')
-    # driver.quit()
+    driver.quit()  # 단독 실행 시 활성화
     return
 
 
-addresses = put_address('https://explorer.kstadium.io/accounts')
+# addresses = put_address('https://explorer.kstadium.io/accounts')
+#
+# if len(addresses) == 0:
+#     print(f'주소가 존재하지 않아서 검색을 드라이버를 종료합니다.')
+#     driver.quit()
+# else:
+#     for address in addresses:
+#         automation_test_3(url, address)
+#     driver.quit()
 
-if len(addresses) == 0:
-    print(f'주소가 존재하지 않아서 검색을 드라이버를 종료합니다.')
-    driver.quit()
-else:
-    for address in addresses:
-        automation_test_3(url, address)
-    driver.quit()
+test_key_word = '21a34c702bfe8d06544e557fcc06965a86365933'
+automation_test_3(url, test_key_word)

@@ -87,7 +87,7 @@ def search_block_height(cur_url):
     if enter is False:
         driver.get(cur_url)
         enter = True
-    sleep(2)
+    sleep(2.5)
     req = driver.page_source
     soup = BeautifulSoup(req, 'html.parser')
     block_height_tags = soup.select(block_height_css_selector)
@@ -109,19 +109,22 @@ def search_block_height(cur_url):
                 print(f'block_height or transaction 이 숫자형태가 아닙니다')
                 continue
     if transaction_check is True and one_exist is False and png_num == 1:
-        driver.save_screenshot(screen_image_name)
+        el = driver.find_element(By.TAG_NAME, 'body')
+        el.screenshot(screen_image_name)
         driver.quit()
         return
     elif transaction_check is True and png_num == 1 and one_exist is True:
         png_num += 1
         screen_image_name = f'{folder_path}/{png_num}{image_extension}'
-        driver.save_screenshot(screen_image_name)
+        el = driver.find_element(By.TAG_NAME, 'body')
+        el.screenshot(screen_image_name)
         driver.quit()
         return
     elif transaction_check is True and png_num != 1 and number_exist is True and enter_2 is False:
         png_num += 1
         screen_image_name = f'{folder_path}/{png_num}{image_extension}'
-        driver.save_screenshot(screen_image_name)
+        el = driver.find_element(By.TAG_NAME, 'body')
+        el.screenshot(screen_image_name)
         driver.quit()
         return
     elif transaction_check is False:
@@ -129,17 +132,19 @@ def search_block_height(cur_url):
             png_num += 1
             screen_image_name = f'{folder_path}/{png_num}{image_extension}'
         enter_2 = True
-        driver.save_screenshot(screen_image_name)
+        el = driver.find_element(By.TAG_NAME, 'body')
+        el.screenshot(screen_image_name)
         png_num += 1
         driver.find_element('xpath', click_x_path).click()
         cur_page += 1
         print(f'transaction 1을 찾기 위해 {cur_page}번 페이지로 이동하였습니다.')
-        sleep(2)
+        sleep(2.5)
         cur_url = driver.current_url
         search_block_height(cur_url)
         return
     screen_image_name = f'{folder_path}/{png_num}{image_extension}'
-    driver.save_screenshot(screen_image_name)
+    el = driver.find_element(By.TAG_NAME, 'body')
+    el.screenshot(screen_image_name)
     driver.quit()
     return
 

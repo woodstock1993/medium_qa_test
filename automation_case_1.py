@@ -1,5 +1,4 @@
 from utils.commons import *
-from selenium.webdriver.common.by import By
 import random, re
 
 
@@ -70,7 +69,7 @@ def automation_test_2(cur_url):
     block_height_arr = []
 
     driver.get(cur_url)
-    sleep(2)
+    sleep(2.5)
     req = driver.page_source
     soup = BeautifulSoup(req, 'html.parser')
     block_height_tags = soup.select(f'{block_height_css_selector}')
@@ -101,7 +100,7 @@ def automation_test_2(cur_url):
 
     driver.find_element(By.LINK_TEXT, str(block_height_number)).click()
     print(f'block height 번호: {block_height_number}가 클릭되었습니다.')
-    sleep(2)
+    sleep(2.5)
 
     req = driver.page_source
     soup = BeautifulSoup(req, 'html.parser')

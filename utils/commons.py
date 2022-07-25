@@ -1,4 +1,5 @@
 from bs4 import BeautifulSoup
+from selenium.webdriver.common.by import By
 from selenium import webdriver
 from time import sleep
 from selenium.webdriver.chrome.service import Service
